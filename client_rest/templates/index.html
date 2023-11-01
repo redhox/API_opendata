@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/epoch/0.8.4/js/epoch.js"></script>
+
+
+
+
+    <h1>Departement</h1>
+
+    <div id="page">
+        <div id="liste">
+            <h2>Liste des departements</h2>
+
+            <ul class="list-group">
+                {% for dep in liste_department: %}
+                <li class="list-group-item">
+                    <a href="{{url_for('get_etudiant', id=dep)}}" id="departemnt">{{dep}} </a>
+                    <div class="info_sup" id="departement_{{dep}}">
+                        
+
+
+                        <div id="histogramChart_{{dep.replace("-", "_").replace("é", "e").replace("'", "_")}}" class="epoch category10" style="width: 800px; height: 200px;color:red; "></div>
+                        <script>
+                            var histogramData_{{dep.replace("-", "_").replace("é", "e").replace("'", "_")}} = [
+                                {
+                                label: "CONSOA", color:'#A84646',
+                                values: [
+                                    {% for data in moyenne_dep_years_list : %}
+                                    {% if data['DEPARTEMENT']== dep %}
+                                    
+                                    {  y: {{data["CONSOA"]}}, x:"{{data["ANNEE"]}}"},
+                                    {% endif %}
+                                    {% endfor %}
+                                    // Ajoutez d'autres points de données pour chaque année
+                                ],
+                                },
+                                {
+                                label: "CONSOI", color:'#A84646',
+                                values: [
+                                {% for data in moyenne_dep_years_list : %}
+                                    {% if data['DEPARTEMENT']== dep %}
+                                    {  y: {{data["CONSOI"]}}, x:"{{data["ANNEE"]}}" },
+                                    {% endif %}
+                                    {% endfor %}
+                                    // Ajoutez d'autres points de données pour chaque année
+                                ],
+                                },
+                                {
+                                label: "CONSONA", color:'#A84646',
+                                values: [
+                                {% for data in moyenne_dep_years_list : %}
+                                    {% if data['DEPARTEMENT']== dep %}
+                                    {  y: {{data["CONSONA"]}} , x:"{{data["ANNEE"]}}"},
+                                    {% endif %}
+                                    {% endfor %}
+                                    // Ajoutez d'autres points de données pour chaque année
+                                ],
+                                },
+                                {
+                                label: "CONSOR", color:'#A84646',
+                                values: [
+                                {% for data in moyenne_dep_years_list : %}
+                                    {% if data['DEPARTEMENT']== dep %}
+                                    {  y: {{data["CONSOR"]}}, x:"{{data["ANNEE"]}}" },
+                                    {% endif %}
+                                    {% endfor %}
+                                    // Ajoutez d'autres points de données pour chaque année
+                                ],
+                                },
+                                {
+                                label: "CONSOT", color:'#A84646',
+                                values: [
+                                {% for data in moyenne_dep_years_list : %}
+                                    {% if data['DEPARTEMENT']== dep %}
+                                    {  y: {{data["CONSOT"]}} , x:"{{data["ANNEE"]}}"},
+                                    {% endif %}
+                                    {% endfor %}
+                                    // Ajoutez d'autres points de données pour chaque année
+                                ],
+                                },
+                            ];
+                            $('#histogramChart_{{dep.replace("-", "_").replace("é", "e").replace("'", "_")}}').epoch({
+                                type: 'bar',
+                                data: histogramData_{{dep.replace("-", "_").replace("é", "e").replace("'", "_")}},
+                                
+
+
+                            });
+                        </script>
+
+
+
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,21 @@
+{
+	"_id":0, 
+	"nom":"Potter",
+	"prenom":"Harry", 
+	"classe":"Premiere", 
+	"age":17
+}
+{
+	"_id":1, 
+	"nom":"Granger", 
+	"prenom":"Hermione", 
+	"classe":"Premiere", 
+	"age":17
+}
+{
+	"_id":2, 
+	"nom":"Weasley", 
+	"prenom":"Ron", 
+	"classe":"Premiere",
+	"age":17
+}

@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>{{contenu[1]["DEPARTEMENT"]}} </h1>
+
+<div id="page">
+    <div id="liste">
+        <table style="width: 100%;">
+            <tr>
+                <th>annee</th>
+                <th>CONSOA</th>
+                <th>CONSOI</th>
+                <th>CONSOR</th>
+                <th>CONSONA</th>
+                <th>CONSOT</th>
+            </tr>
+        {% for data in contenu : %}
+        <tr>
+            <td> {{data["ANNEE"]}}</td>
+            <td> {{data["CONSOA"]}}</td>
+            <td> {{data["CONSOI"]}}</td>
+            <td> {{data["CONSONA"]}}</td>
+            <td> {{data["CONSOR"]}}</td>
+            <td>{{data["CONSOT"]}}</td>
+        </tr>
+        {% endfor %}
+        </table>
+    </div>
+    <div id="clavier">
+        <fieldset>
+            <a href="{{url_for('index')}}" class="btn btn-lg btn-primary btn-block form-button" id="tous">Tous les departements</a>
+        </fieldset>
+    </div>
+</div>
+
+
+{% endblock %}

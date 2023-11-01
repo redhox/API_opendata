@@ -1,0 +1,76 @@
+version: '3'
+services:
+  dockerflaskserveur:
+    build:
+      context: .
+      dockerfile: Dockerfile-serveur
+    container_name: flask-serveur
+    ports: 
+      - 5001:5001
+    networks:
+      - host
+    entrypoint:
+      - flask
+      - run
+      - --host=0.0.0.0
+      - --port=5001
+    environment: 
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=example
+      - FLASK_DEBUG=1
+      - FLASK_APP=./serveur.py
+    volumes:
+      ['./serveur_rest:/serveur_rest']
+
+  dockerflaskclient:
+    build:
+      context: .
+      dockerfile: Dockerfile-client
+    container_name: flask-client
+    ports: 
+      - 5000:5000
+    networks:
+      - host
+    entrypoint:
+      - flask
+      - run
+      - --host=0.0.0.0
+    environment: 
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=example
+      - FLASK_DEBUG=1
+      - FLASK_APP=./client.py
+    volumes:
+      ['./client_rest:/client_rest']
+
+  mongo:
+    image: mongo
+    container_name: mongo
+    ports:
+      - 27017:27017
+    networks:
+      - host
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=example
+      - MONGO_INITDB_DATABASE=consommations
+
+  mongo-seed:
+        env_file:
+            - .env
+        build:
+            context: ./mongo_seed
+            dockerfile: Dockerfile
+            args:
+                - DATABASE_URI=$DATABASE_URI
+                - USERNAME=$MONGO_INITDB_ROOT_USERNAME
+                - PASSWORD=$MONGO_INITDB_ROOT_PASSWORD
+        container_name: mongo-seed
+        depends_on:
+            - mongo
+        networks:
+            - host
+    
+
+networks:
+    host:
